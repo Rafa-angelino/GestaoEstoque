@@ -1,0 +1,33 @@
+﻿@page "/inventories"
+@using static GestaoDeEstoque.WebApp.Controls.Common.AutoCompleteComponent;
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize(Policy = "Inventory")]
+
+<h3>Produtos</h3>
+<br />
+<SearchInvetoryComponent OnSearchInventory="OnInventorySearch"></SearchInvetoryComponent>
+<br />
+<InevntoryListComponent SearchTerm="@searchTerm"></InevntoryListComponent>
+<br />
+<button type="button" class="btn btn-primary" @onclick= "AddInventory">Adicionar produto</button>
+
+
+
+@code {
+   
+
+    private string searchTerm = string.Empty;
+
+    private  void OnInventorySearch(string searchTerm)
+    {
+        this.searchTerm = searchTerm;
+    }
+
+    private void AddInventory()
+    {
+        NavigationManager.NavigateTo("/addinventory");
+    }
+
+   
+}

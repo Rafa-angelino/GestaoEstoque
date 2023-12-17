@@ -1,0 +1,22 @@
+﻿<div class="input-group">
+    <input type="text" 
+        class="form-control"
+        placeholder="Coloque o nome do produto para pesquisar"
+        @bind-value="inventoryNameToSearch"/>
+    <button 
+        type="button" 
+        class="btn-success input-group-text"
+        @onclick="OnSearch">Pesquisar</button>
+</div>
+
+@code {
+    private string inventoryNameToSearch = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> OnSearchInventory { get; set; }
+
+    private void OnSearch()
+    {
+        OnSearchInventory.InvokeAsync(inventoryNameToSearch); // Irá passar o evento para o componente parente
+    }
+}

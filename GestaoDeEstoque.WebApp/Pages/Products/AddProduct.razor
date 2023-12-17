@@ -1,0 +1,56 @@
+﻿@page "/addproduct"
+@inject IAddProductUseCase AddProductUseCase
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize(Policy = "Inventory")]
+
+<h3>Adicionar Produto</h3>
+<br />
+<EditForm Model="product" OnValidSubmit="SaveProduct">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label for="name">Descrição</label>
+        <InputText id="name"
+                   @bind-Value="product.ProductName"
+                   class="form-control">
+        </InputText>
+    </div>
+    <div class="form-group">
+        <label for="name">Quantidade</label>
+        <InputNumber id="name"
+                     @bind-Value="product.Quantity"
+                     class="form-control">
+        </InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="name">Preço de Venda</label>
+        <InputNumber id="name"
+                     @bind-Value="product.Price"
+                     class="form-control">
+        </InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="invs">Inventários</label>
+        <ProductInventoryComponent Product="this.product"></ProductInventoryComponent>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="button" class="btn btn-primary" @onclick="Cancel">Cancelar</button>
+</EditForm>
+
+@code {
+    private Product product = new();
+
+    private async Task SaveProduct()
+    {
+        await AddProductUseCase.ExecuteAsync(product);
+        NavigationManager.NavigateTo("/products");
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/products");
+    }
+
+}
